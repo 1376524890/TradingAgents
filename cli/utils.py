@@ -160,6 +160,12 @@ def select_shallow_thinking_agent(provider) -> str:
             ("GPT-OSS:latest (20B, local)", "gpt-oss:latest"),
             ("GLM-4.7-Flash:latest (30B, local)", "glm-4.7-flash:latest"),
         ],
+        "dashscope": [
+            ("Qwen3 Turbo - Fast, cost-effective", "qwen3-turbo"),
+            ("Qwen3.5 Plus - Balanced performance", "qwen3.5-plus"),
+            ("Qwen2.5-7B-Instruct - Lightweight", "qwen2.5-7b-instruct"),
+            ("Qwen Turbo - Legacy fast model", "qwen-turbo"),
+        ],
     }
 
     choice = questionary.select(
@@ -228,6 +234,13 @@ def select_deep_thinking_agent(provider) -> str:
             ("GPT-OSS:latest (20B, local)", "gpt-oss:latest"),
             ("Qwen3:latest (8B, local)", "qwen3:latest"),
         ],
+        "dashscope": [
+            ("Qwen3 Max - Most capable", "qwen3-max"),
+            ("QwQ-Plus - Advanced reasoning", "qwq-plus"),
+            ("Qwen3.5 Plus - Balanced performance", "qwen3.5-plus"),
+            ("QwQ-32B - Reasoning model", "qwq-32b"),
+            ("Qwen Max - Legacy flagship", "qwen-max"),
+        ],
     }
 
     choice = questionary.select(
@@ -260,6 +273,7 @@ def select_llm_provider() -> tuple[str, str]:
         ("Google", "https://generativelanguage.googleapis.com/v1"),
         ("Anthropic", "https://api.anthropic.com/"),
         ("xAI", "https://api.x.ai/v1"),
+        ("Dashscope", "https://dashscope.aliyuncs.com/compatible-mode/v1"),
         ("Openrouter", "https://openrouter.ai/api/v1"),
         ("Ollama", "http://localhost:11434/v1"),
     ]

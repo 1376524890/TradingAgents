@@ -1,3 +1,16 @@
+"""@File: interface.py
+@Contains: [TOOLS_CATEGORIES, VENDOR_LIST, VENDOR_METHODS, get_category_for_method, get_vendor, route_to_vendor]
+@Responsibilities:
+    - 定义数据工具分类和供应商映射
+    - 提供数据源路由逻辑，支持多供应商回退
+    - 集成 yfinance, alpha_vantage, akshare 三种数据源
+@Non-Responsibilities:
+    - 不负责具体的数据获取实现
+    - 不负责缓存管理
+@Input: 方法名、参数
+@Output: 数据获取结果
+"""
+
 from typing import Annotated
 
 # Import from vendor-specific modules
@@ -23,6 +36,17 @@ from .alpha_vantage import (
     get_global_news as get_alpha_vantage_global_news,
 )
 from .alpha_vantage_common import AlphaVantageRateLimitError
+
+# Import AKShare data sources (China-accessible)
+from .akshare_stock import get_stock_data_akshare, get_indicators_akshare
+from .akshare_fundamentals import (
+    get_fundamentals_akshare,
+    get_balance_sheet_akshare,
+    get_cashflow_akshare,
+    get_income_statement_akshare,
+    get_insider_transactions_akshare,
+)
+from .akshare_news import get_news_akshare, get_global_news_akshare
 
 # Configuration and routing logic
 from .config import get_config
@@ -61,49 +85,59 @@ TOOLS_CATEGORIES = {
 }
 
 VENDOR_LIST = [
-    "yfinance",
-    "alpha_vantage",
+    "akshare",       # China-accessible, recommended for Chinese users
+    "yfinance",      # Requires proxy in China
+    "alpha_vantage", # Requires API key and proxy in China
 ]
 
 # Mapping of methods to their vendor-specific implementations
 VENDOR_METHODS = {
     # core_stock_apis
     "get_stock_data": {
+        "akshare": get_stock_data_akshare,
         "alpha_vantage": get_alpha_vantage_stock,
         "yfinance": get_YFin_data_online,
     },
     # technical_indicators
     "get_indicators": {
+        "akshare": get_indicators_akshare,
         "alpha_vantage": get_alpha_vantage_indicator,
         "yfinance": get_stock_stats_indicators_window,
     },
     # fundamental_data
     "get_fundamentals": {
+        "akshare": get_fundamentals_akshare,
         "alpha_vantage": get_alpha_vantage_fundamentals,
         "yfinance": get_yfinance_fundamentals,
     },
     "get_balance_sheet": {
+        "akshare": get_balance_sheet_akshare,
         "alpha_vantage": get_alpha_vantage_balance_sheet,
         "yfinance": get_yfinance_balance_sheet,
     },
     "get_cashflow": {
+        "akshare": get_cashflow_akshare,
         "alpha_vantage": get_alpha_vantage_cashflow,
         "yfinance": get_yfinance_cashflow,
     },
     "get_income_statement": {
+        "akshare": get_income_statement_akshare,
         "alpha_vantage": get_alpha_vantage_income_statement,
         "yfinance": get_yfinance_income_statement,
     },
     # news_data
     "get_news": {
+        "akshare": get_news_akshare,
         "alpha_vantage": get_alpha_vantage_news,
         "yfinance": get_news_yfinance,
     },
     "get_global_news": {
+        "akshare": get_global_news_akshare,
         "yfinance": get_global_news_yfinance,
         "alpha_vantage": get_alpha_vantage_global_news,
     },
     "get_insider_transactions": {
+        "akshare": get_insider_transactions_akshare,
         "alpha_vantage": get_alpha_vantage_insider_transactions,
         "yfinance": get_yfinance_insider_transactions,
     },

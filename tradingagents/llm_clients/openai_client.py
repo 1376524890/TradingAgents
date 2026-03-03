@@ -29,7 +29,7 @@ class UnifiedChatOpenAI(ChatOpenAI):
 
 
 class OpenAIClient(BaseLLMClient):
-    """Client for OpenAI, Ollama, OpenRouter, and xAI providers."""
+    """Client for OpenAI, Ollama, OpenRouter, xAI, and Dashscope providers."""
 
     def __init__(
         self,
@@ -58,6 +58,11 @@ class OpenAIClient(BaseLLMClient):
         elif self.provider == "ollama":
             llm_kwargs["base_url"] = "http://localhost:11434/v1"
             llm_kwargs["api_key"] = "ollama"  # Ollama doesn't require auth
+        elif self.provider == "dashscope":
+            llm_kwargs["base_url"] = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+            api_key = os.environ.get("DASHSCOPE_API_KEY")
+            if api_key:
+                llm_kwargs["api_key"] = api_key
         elif self.base_url:
             llm_kwargs["base_url"] = self.base_url
 
