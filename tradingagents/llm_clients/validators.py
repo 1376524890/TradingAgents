@@ -5,6 +5,21 @@ Let LLM providers use their own defaults for unspecified params.
 """
 
 VALID_MODELS = {
+    "dashscope": [
+        # Qwen3.5 系列 (推荐中国用户)
+        "qwen3.5-plus",
+        "qwen3.5-flash",
+        # Qwen3 系列
+        "qwen3-max",
+        "qwen3-coder-plus",
+        # QwQ 推理系列
+        "qwq-plus",
+        "qwq-32b-preview",
+        # 旧版兼容 (仍可用)
+        "qwen-max",
+        "qwen-plus",
+        "qwen-turbo",
+    ],
     "openai": [
         # GPT-5 series (2025)
         "gpt-5.2",
@@ -62,21 +77,6 @@ VALID_MODELS = {
         "grok-4-0709",
         "grok-4-fast-reasoning",
         "grok-4-fast-non-reasoning",
-    ],
-    "dashscope": [
-        # Qwen3.5 系列 (推荐)
-        "qwen3.5-plus",
-        "qwen3.5-flash",
-        # Qwen3 系列
-        "qwen3-max",
-        "qwen3-coder-plus",
-        # QwQ 推理系列
-        "qwq-plus",
-        "qwq-32b-preview",
-        # 旧版兼容 (仍可用)
-        "qwen-max",
-        "qwen-plus",
-        "qwen-turbo",
     ],
 }
 

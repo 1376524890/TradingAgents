@@ -15,7 +15,7 @@ def create_llm_client(
     """Create an LLM client for the specified provider.
 
     Args:
-        provider: LLM provider (openai, anthropic, google, xai, ollama, openrouter, dashscope)
+        provider: LLM provider (dashscope, openai, anthropic, google, xai, ollama, openrouter)
         model: Model name/identifier
         base_url: Optional base URL for API endpoint
         **kwargs: Additional provider-specific arguments
@@ -28,14 +28,15 @@ def create_llm_client(
     """
     provider_lower = provider.lower()
 
+    # Dashscope (Qwen) - recommended for Chinese users
+    if provider_lower == "dashscope":
+        return OpenAIClient(model, base_url, provider="dashscope", **kwargs)
+
     if provider_lower in ("openai", "ollama", "openrouter"):
         return OpenAIClient(model, base_url, provider=provider_lower, **kwargs)
 
     if provider_lower == "xai":
         return OpenAIClient(model, base_url, provider="xai", **kwargs)
-
-    if provider_lower == "dashscope":
-        return OpenAIClient(model, base_url, provider="dashscope", **kwargs)
 
     if provider_lower == "anthropic":
         return AnthropicClient(model, base_url, **kwargs)
